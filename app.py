@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request
 from common.models.user import db
-from controllers.auth import auth
 from __init__ import create_app
 
-app = create_app()
+app, db = create_app()
 
 @app.route('/')
 def index():

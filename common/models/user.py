@@ -1,7 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-
-db =SQLAlchemy()
+from __init__ import db
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -12,7 +10,7 @@ class User(db.Model):
     pass_hash = db.Column(db.String(128))
 
     def set_pass(self, password):
-      self.pass_hash = generate_password_hash(password)
+        self.pass_hash = generate_password_hash(password)
 
     def check_pass(self, password):
-      return check_password_hash(self.pass_hash, password)
+        return check_password_hash(self.pass_hash, password)
