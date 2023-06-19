@@ -1,0 +1,9 @@
+{% extends 'layout.html' %} {% block content %}
+<h1>クイズ</h1>
+<p>問題: {{ question }}</p>
+<form action="/check_answer" method="post">
+  <label for="user_answer">あなたの答え:</label>
+  <input type="text" id="user_answer" name="user_answer" required />
+  <input type="submit" value="Lets Go!" />
+</form>
+{% endblock %}
