@@ -1,11 +1,15 @@
 {% extends 'layout.html' %} {% block content %}
 <h1>
-  こちらはテーマを入力していただくと自動でクイズを作成することが出来るアプリケーションです。
+  こちらはテーマを入力していただくと自動でクイズを作成することが出来るアプリケーションです。<br />
+  {{ error }}<br />
+  {{ username }} {{ title }}
 </h1>
 <form action="/quiz" method="post">
-  <label for="theme">作成したいクイズテーマを入力してください。</label>
-  <input type="text" id="them" name="theme" required />
-  <input type="submit" value="QUIZ START!" />
+  <label for="theme">作成したいクイズテーマを入力してください。</label><br>
+  <input type="text" id="them" name="theme" required /></label><br>
+  <input type="submit" value="スタート!" />
 </form>
+<a href="/login">ログイン</a><br />
+<a href="/signup">会員登録はこちらから</a>
 
 {% endblock %}
