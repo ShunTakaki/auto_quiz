@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = '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'
+openai.api_key = 'チャットGPTのAPIを入力してください'
 
 def generate_quiz(theme):
     response = openai.ChatCompletion.create(

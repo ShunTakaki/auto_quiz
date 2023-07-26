@@ -1,6 +1,8 @@
 {% extends 'layout.html' %} {% block content %}
 <h1>クイズの結果！</h1>
 <p>{{ result }}</p>
-<a href="/">ホームに戻る
+<h1>模範解答<br>
+{{ answer }}</h1>
+<a href="/continue">ホームに戻る
 </a>
 {% endblock %}

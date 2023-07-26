@@ -6,7 +6,7 @@ def get_connection():
   return connection
 
 def insert_user(username, password):
-  sql = 'INSERT INTO quiz_user VALUES(default, %s, %s, %s)'
+  sql = 'INSERT INTO auto_quiz VALUES(default, %s, %s, %s, 0)'
   salt = get_salt()
   hashed_password = get_hash(password, salt)
   try :
@@ -34,8 +34,9 @@ def get_hash(password, salt):
   return hashed_password
 
 def authenticate(user_name, password):
-  sql = 'SELECT hashed_password, salt FROM quiz_user WHERE name = %s'
+  sql = 'SELECT hashed_password, salt, point FROM auto_quiz WHERE name = %s'
   flg = False
+  count = None
   try:
     connection = get_connection()
     cursor = connection.cursor()
@@ -46,9 +47,58 @@ def authenticate(user_name, password):
       hashed_password = get_hash(password, salt)
       if hashed_password == user[0]:
         flg = True
+        count = user[2]
   except psycopg2.DatabaseError:
     flg = False
+    count = None
   finally:
     cursor.close()
     connection.close()
-  return flg
+  return flg, count
+
+
+
+def get_point(name):
+  sql = 'UPDATE auto_quiz SET point = point + 1 WHERE name = %s '
+  try :
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute(sql, (name,))
+    count = cursor.rowcount
+    connection.commit()
+  except psycopg2.DatabaseError:
+    count = 0
+  finally:
+    cursor.close()
+    connection.close()
+  return count
+
+def getcount(username):
+  sql = 'SELECT point FROM auto_quiz WHERE name = %s'
+  username = username
+  try:
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute(sql, (username,))
+    connection.commit()
+    point = cursor.fetchone()
+    point = point[0]
+  finally:
+    cursor.close()
+    connection.close()
+  return point
+
+def ranks():
+    sql = 'SELECT name, point FROM auto_quiz ORDER BY point DESC LIMIT 5;'
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        rows = cursor.fetchall()  # 全ての行を取得
+        rank = [row for row in rows]  # ユーザー名とポイントを含むタプルをリストに入れる
+        print(rank)
+    finally:
+        cursor.close()
+        connection.close()
+    return rank

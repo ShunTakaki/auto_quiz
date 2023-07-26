@@ -1,15 +1,66 @@
 {% extends 'layout.html' %} {% block content %}
-<h1>
-  こちらはテーマを入力していただくと自動でクイズを作成することが出来るアプリケーションです。<br />
-  {{ error }}<br />
-  {{ username }} {{ title }}
-</h1>
-<form action="/quiz" method="post">
-  <label for="theme">作成したいクイズテーマを入力してください。</label><br>
-  <input type="text" id="them" name="theme" required /></label><br>
-  <input type="submit" value="スタート!" />
-</form>
-<a href="/login">ログイン</a><br />
-<a href="/signup">会員登録はこちらから</a>
+
+<div id="container">
+  <div id="main-content">
+    <div id="background"></div>
+
+    <div id="loader">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div id="content" style="display: none">
+      <h1>
+        FREE QUIZ<br />
+        {{ error }}<br />
+        {{ msg }}
+      </h1>
+
+      <form action="/quiz" method="post">
+        <label for="theme">作成したいクイズテーマを入力してください。</label
+        ><br />
+        <input type="text" id="theme" name="theme" required /><br />
+        <input type="submit" value="スタート!" />
+      </form>
+
+      <div>
+        {% if flag:%}
+        <a href="/login">ログイン</a>
+        <a href="/signup">会員登録</a>
+        {% else:%}
+        <a href="/">ログアウト</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <script>
+      setTimeout(function () {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        if (document.getElementById("profile")) {
+          document.getElementById("profile").style.display = "block";
+        }
+      }, 3000);
+    </script>
+  </div>
+
+  {% if not flag %}
+  <div id="profile" style="display: none">
+    <h3>Profile</h3>
+    <h2>{{ username }}</h2>
+    <h3>正解数</h3>
+    <h2>{{ count }}点</h2>
+    <h3>ランキング</h3>
+    {% for i, row in ranknow %}
+    <h2>{{ loop.index }}位{{ i }}:{{row}}点</h2>
+    {% endfor %}
+  </div>
+
+  {% endif %}
+</div>
 
 {% endblock %}

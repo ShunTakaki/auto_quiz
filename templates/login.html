@@ -1,10 +1,11 @@
 {% extends 'layout.html' %} {% block content %}
-<h1>ログイン</h1>
 <form action="/login_route" method="post">
+  <h1>ログイン</h1>
   <label for="name">ニックネーム</label>
   <input type="text" id="them" name="username" required />
   <label for="pass">パスワード</label>
-  <input type="password" id="name" name="password" required />
+  <input type="password" id="name" name="password" required /><br />
   <input type="submit" value="ログイン" />
 </form>
+
 {% endblock %}
