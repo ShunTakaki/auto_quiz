@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = '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'
+openai.api_key = 'API-KEY'
 
 def generate_quiz(theme):
     response = openai.ChatCompletion.create(
